@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>sdqs-Zy的博客</title>
+    <link>http://example.org/</link>
+    <description>Recent content on sdqs-Zy的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-Hans</language>
+    <lastBuildDate>Wed, 09 Oct 2019 16:16:42 +0800</lastBuildDate>
+    
+	<atom:link href="http://example.org/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>命令行详解</title>
+      <link>http://example.org/posts/%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%AF%A6%E8%A7%A3/</link>
+      <pubDate>Wed, 09 Oct 2019 16:16:42 +0800</pubDate>
+      
+      <guid>http://example.org/posts/%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%AF%A6%E8%A7%A3/</guid>
+      <description>操作系统与计算机原理：命令行详解 1.kernel 内核 shell 壳
+命令的全部要素  可执行程序
+ 参数
+ 环境变量
+ 工作目录(查看当前工作路径：pwd)
+可执行程序 windows: exe/bat/com
+UNIX/Linux: x权限
+   去哪⾥找程序？ Windows：Path环境变量 + 当前⽬录 UNIX/Linux：PATH环境变量  设置环境变量 Linux常用命令 进入目录 cd (change directory)
+1. cd . 当前目录
+2. cd .. 当前目录的父目录
+展示文件
+1. ls展示当前目录下的非隐藏文件(.开头的文件就是隐藏文件) ls -a 全部展示
+2. ls -l 等价于ll 展示详细信息
+3. ls -alth (list) 相当于 -a (all) -l (详细) -t (按照文件修改顺序倒叙排列) -h (人类可读模式) 四个命令
+移动/重命名文件 mv (move)</description>
+    </item>
+    
+    <item>
+      <title>开博大吉</title>
+      <link>http://example.org/posts/%E5%BC%80%E5%8D%9A%E5%A4%A7%E5%90%89/</link>
+      <pubDate>Wed, 09 Oct 2019 10:54:34 +0800</pubDate>
+      
+      <guid>http://example.org/posts/%E5%BC%80%E5%8D%9A%E5%A4%A7%E5%90%89/</guid>
+      <description>开博测试 我的博客开通了，希望能写出好文章。</description>
+    </item>
+    
+  </channel>
+</rss>
