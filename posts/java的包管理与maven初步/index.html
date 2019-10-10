@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>sdqs-Zy的博客  | Java的包管理与Maven初步</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="generator" content="Hugo 0.58.3" />
+    
+    
+      <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    
+
+    
+    
+      <link href="/dist/css/app.d98f2eb6bcd1eaedb7edf166bd16af26.css" rel="stylesheet">
+    
+
+    
+
+    
+      
+    
+
+    
+    
+    <meta property="og:title" content="Java的包管理与Maven初步" />
+<meta property="og:description" content="Java的包管理与Maven初步 JVM的工作就是执行一个个类的字节码，需要哪个类便会根据classpath挨个找
+类路径Classpath  类的全限定类名(目录层级)唯一确定了一个类
+ jar包就是一堆类的集合压缩包
+ 当classpath里的不同版本jar包出现同名类，会优先使用前面的 (classpath hell)
+什么是包管理 包管理的本质就是告诉JVM如何找到所需的第三方类库
+ 以及成功地解决其中的冲突问题
+Maven Maven 的中央仓库按照一定的约定存储所有包
+ 当你需要哪个包时，Maven会帮你下载到本地仓库，默认位于~/.m2，在这里进行缓存。
+ Maven 按照约定为所有的包编号，方便检索。(groupId/artifactId/version)
+Maven在依赖和冲突方面的管理 包冲突的几种常见异常
+ AbstractMethodError
+ NoClassDefFoundError
+ ClassNotFoundException
+ LinkageError
+ 传递性依赖的自动管理
+ 原则：绝不允许最终的classpath出现同名不同版本的jar包
+ 依赖冲突的解决原则：根据传递性依赖链，最近的胜出
+ 解决包冲突的方法
+首先通过Maven里的图形依赖关系，或者mvn dependency:tree寻找冲突依赖
+ 直接在项目的pom.xml（project object model，项目的说明书）文件中依赖需要的需要的包(即利用 &lsquo;最近的胜出&rsquo; 原则，自动过滤与之冲突的依赖)
+ 在中加入标签手动排除冲突依赖
+ 利用Maven helper插件，快速解决冲突
+依赖的scope 常见的比如：
+ compile 表示该依赖在 main 和 test 中都可见
+ test 表示只在test 中可见
+ provided 表示只在编译main代码时有效，运行时候就无效(NoClassDefFoundError的常见原因)" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://example.org/posts/java%E7%9A%84%E5%8C%85%E7%AE%A1%E7%90%86%E4%B8%8Emaven%E5%88%9D%E6%AD%A5/" />
+<meta property="article:published_time" content="2019-10-10T17:49:33+08:00" />
+<meta property="article:modified_time" content="2019-10-10T17:49:33+08:00" />
+<meta itemprop="name" content="Java的包管理与Maven初步">
+<meta itemprop="description" content="Java的包管理与Maven初步 JVM的工作就是执行一个个类的字节码，需要哪个类便会根据classpath挨个找
+类路径Classpath  类的全限定类名(目录层级)唯一确定了一个类
+ jar包就是一堆类的集合压缩包
+ 当classpath里的不同版本jar包出现同名类，会优先使用前面的 (classpath hell)
+什么是包管理 包管理的本质就是告诉JVM如何找到所需的第三方类库
+ 以及成功地解决其中的冲突问题
+Maven Maven 的中央仓库按照一定的约定存储所有包
+ 当你需要哪个包时，Maven会帮你下载到本地仓库，默认位于~/.m2，在这里进行缓存。
+ Maven 按照约定为所有的包编号，方便检索。(groupId/artifactId/version)
+Maven在依赖和冲突方面的管理 包冲突的几种常见异常
+ AbstractMethodError
+ NoClassDefFoundError
+ ClassNotFoundException
+ LinkageError
+ 传递性依赖的自动管理
+ 原则：绝不允许最终的classpath出现同名不同版本的jar包
+ 依赖冲突的解决原则：根据传递性依赖链，最近的胜出
+ 解决包冲突的方法
+首先通过Maven里的图形依赖关系，或者mvn dependency:tree寻找冲突依赖
+ 直接在项目的pom.xml（project object model，项目的说明书）文件中依赖需要的需要的包(即利用 &lsquo;最近的胜出&rsquo; 原则，自动过滤与之冲突的依赖)
+ 在中加入标签手动排除冲突依赖
+ 利用Maven helper插件，快速解决冲突
+依赖的scope 常见的比如：
+ compile 表示该依赖在 main 和 test 中都可见
+ test 表示只在test 中可见
+ provided 表示只在编译main代码时有效，运行时候就无效(NoClassDefFoundError的常见原因)">
+
+
+<meta itemprop="datePublished" content="2019-10-10T17:49:33&#43;08:00" />
+<meta itemprop="dateModified" content="2019-10-10T17:49:33&#43;08:00" />
+<meta itemprop="wordCount" content="56">
+
+
+
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Java的包管理与Maven初步"/>
+<meta name="twitter:description" content="Java的包管理与Maven初步 JVM的工作就是执行一个个类的字节码，需要哪个类便会根据classpath挨个找
+类路径Classpath  类的全限定类名(目录层级)唯一确定了一个类
+ jar包就是一堆类的集合压缩包
+ 当classpath里的不同版本jar包出现同名类，会优先使用前面的 (classpath hell)
+什么是包管理 包管理的本质就是告诉JVM如何找到所需的第三方类库
+ 以及成功地解决其中的冲突问题
+Maven Maven 的中央仓库按照一定的约定存储所有包
+ 当你需要哪个包时，Maven会帮你下载到本地仓库，默认位于~/.m2，在这里进行缓存。
+ Maven 按照约定为所有的包编号，方便检索。(groupId/artifactId/version)
+Maven在依赖和冲突方面的管理 包冲突的几种常见异常
+ AbstractMethodError
+ NoClassDefFoundError
+ ClassNotFoundException
+ LinkageError
+ 传递性依赖的自动管理
+ 原则：绝不允许最终的classpath出现同名不同版本的jar包
+ 依赖冲突的解决原则：根据传递性依赖链，最近的胜出
+ 解决包冲突的方法
+首先通过Maven里的图形依赖关系，或者mvn dependency:tree寻找冲突依赖
+ 直接在项目的pom.xml（project object model，项目的说明书）文件中依赖需要的需要的包(即利用 &lsquo;最近的胜出&rsquo; 原则，自动过滤与之冲突的依赖)
+ 在中加入标签手动排除冲突依赖
+ 利用Maven helper插件，快速解决冲突
+依赖的scope 常见的比如：
+ compile 表示该依赖在 main 和 test 中都可见
+ test 表示只在test 中可见
+ provided 表示只在编译main代码时有效，运行时候就无效(NoClassDefFoundError的常见原因)"/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="http://example.org/" class="f3 fw2 hover-white no-underline white-90 dib">
+      sdqs-Zy的博客
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+      
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+
+    <header class="mt4 w-100">
+      <p class="f6 b helvetica tracked">
+          
+        POSTS
+      </p>
+      <h1 class="f1 athelas mb1">Java的包管理与Maven初步</h1>
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2019-10-10T17:49:33&#43;08:00">October 10, 2019</time>
+      
+      
+    </header>
+
+    <section class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l">
+
+<h1 id="java的包管理与maven初步">Java的包管理与Maven初步</h1>
+
+<p>JVM的工作就是执行一个个类的字节码，需要哪个类便会根据classpath挨个找</p>
+
+<h3 id="类路径classpath">类路径Classpath</h3>
+
+<ul>
+<li>类的全限定类名(目录层级)唯一确定了一个类<br /></li>
+<li>jar包就是一堆类的集合压缩包<br /></li>
+
+<li><p>当classpath里的不同版本jar包出现同名类，会优先使用前面的 (classpath hell)</p>
+
+<h3 id="什么是包管理">什么是包管理</h3></li>
+
+<li><p>包管理的本质就是告诉JVM如何找到所需的第三方类库</p></li>
+
+<li><p>以及成功地解决其中的冲突问题</p>
+
+<h2 id="maven">Maven</h2></li>
+
+<li><p>Maven 的中央仓库按照一定的约定存储所有包</p></li>
+
+<li><p>当你需要哪个包时，Maven会帮你下载到本地仓库，默认位于~/.m2，在这里进行缓存。</p></li>
+
+<li><p>Maven 按照约定为所有的包编号，方便检索。(groupId/artifactId/version)</p>
+
+<h3 id="maven在依赖和冲突方面的管理">Maven在依赖和冲突方面的管理</h3></li>
+
+<li><p>包冲突的几种常见异常</p></li>
+
+<li><p>AbstractMethodError</p></li>
+
+<li><p>NoClassDefFoundError</p></li>
+
+<li><p>ClassNotFoundException</p></li>
+
+<li><p>LinkageError</p></li>
+
+<li><p>传递性依赖的自动管理</p></li>
+
+<li><p>原则：绝不允许最终的classpath出现同名不同版本的jar包</p></li>
+
+<li><p>依赖冲突的解决原则：根据传递性依赖链，最近的胜出</p></li>
+
+<li><p>解决包冲突的方法<br />
+    首先通过Maven里的图形依赖关系，或者mvn dependency:tree寻找冲突依赖</p></li>
+
+<li><p>直接在项目的pom.xml（project object model，项目的说明书）文件中依赖需要的需要的包(即利用 &lsquo;最近的胜出&rsquo; 原则，自动过滤与之冲突的依赖)</p></li>
+
+<li><p>在<dependency>中加入<exclusions>标签手动排除冲突依赖</p></li>
+
+<li><p>利用Maven helper插件，快速解决冲突</p>
+
+<h3 id="依赖的scope">依赖的scope</h3>
+
+<p>常见的比如：</p></li>
+
+<li><p><scope>compile</scope> 表示该依赖在 main 和 test 中都可见</p></li>
+
+<li><p><scope>test</scope> 表示只在test 中可见</p></li>
+
+<li><p><scope>provided</scope> 表示只在编译main代码时有效，运行时候就无效(NoClassDefFoundError的常见原因)</p>
+
+<h2 id="maven不仅仅是包管理工具-还是自动化构建工具">Maven不仅仅是包管理工具，还是自动化构建工具</h2>
+
+<p>推荐学习用书《Maven实战》；其中的第五章：坐标和依赖；第六章：仓库；第七章：生命周期与插件；第八章：聚合与继承<br />
+其中的那些章节是值得一看的：</p></li>
+
+<li><p>Maven项⽬的基本结构（传世经典）</p></li>
+
+<li><p>基本概念：坐标和依赖/⽣命周期/仓库/聚合和继承（第5~8章）</p></li>
+
+<li><p>选看：使⽤Maven进⾏测试；Maven的插件</p></li>
+</ul>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6">
+      
+      
+      </div>
+    </section>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="http://example.org/" >
+    &copy; 2019 sdqs-Zy的博客
+  </a>
+    <div>
+
+
+
+
+
+
+
+
+
+
+</div>
+  </div>
+</footer>
+
+    
+
+  <script src="/dist/js/app.3fc0f988d21662902933.js"></script>
+
+
+  </body>
+</html>

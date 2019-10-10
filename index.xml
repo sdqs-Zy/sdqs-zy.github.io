@@ -6,10 +6,44 @@
     <description>Recent content on sdqs-Zy的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-Hans</language>
-    <lastBuildDate>Wed, 09 Oct 2019 16:16:42 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 10 Oct 2019 17:49:33 +0800</lastBuildDate>
     
 	<atom:link href="http://example.org/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Java的包管理与Maven初步</title>
+      <link>http://example.org/posts/java%E7%9A%84%E5%8C%85%E7%AE%A1%E7%90%86%E4%B8%8Emaven%E5%88%9D%E6%AD%A5/</link>
+      <pubDate>Thu, 10 Oct 2019 17:49:33 +0800</pubDate>
+      
+      <guid>http://example.org/posts/java%E7%9A%84%E5%8C%85%E7%AE%A1%E7%90%86%E4%B8%8Emaven%E5%88%9D%E6%AD%A5/</guid>
+      <description>Java的包管理与Maven初步 JVM的工作就是执行一个个类的字节码，需要哪个类便会根据classpath挨个找
+类路径Classpath  类的全限定类名(目录层级)唯一确定了一个类
+ jar包就是一堆类的集合压缩包
+ 当classpath里的不同版本jar包出现同名类，会优先使用前面的 (classpath hell)
+什么是包管理 包管理的本质就是告诉JVM如何找到所需的第三方类库
+ 以及成功地解决其中的冲突问题
+Maven Maven 的中央仓库按照一定的约定存储所有包
+ 当你需要哪个包时，Maven会帮你下载到本地仓库，默认位于~/.m2，在这里进行缓存。
+ Maven 按照约定为所有的包编号，方便检索。(groupId/artifactId/version)
+Maven在依赖和冲突方面的管理 包冲突的几种常见异常
+ AbstractMethodError
+ NoClassDefFoundError
+ ClassNotFoundException
+ LinkageError
+ 传递性依赖的自动管理
+ 原则：绝不允许最终的classpath出现同名不同版本的jar包
+ 依赖冲突的解决原则：根据传递性依赖链，最近的胜出
+ 解决包冲突的方法
+首先通过Maven里的图形依赖关系，或者mvn dependency:tree寻找冲突依赖
+ 直接在项目的pom.xml（project object model，项目的说明书）文件中依赖需要的需要的包(即利用 &amp;lsquo;最近的胜出&amp;rsquo; 原则，自动过滤与之冲突的依赖)
+ 在中加入标签手动排除冲突依赖
+ 利用Maven helper插件，快速解决冲突
+依赖的scope 常见的比如：
+ compile 表示该依赖在 main 和 test 中都可见
+ test 表示只在test 中可见
+ provided 表示只在编译main代码时有效，运行时候就无效(NoClassDefFoundError的常见原因)</description>
+    </item>
     
     <item>
       <title>命令行详解</title>
